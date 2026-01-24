@@ -44,7 +44,7 @@ function ChatPage({ assistantId, assistantName, onNewAssistant, onHome }) {
 
   const fetchAssistantDetails = async () => {
     try {
-      const response = await fetch(`/api/assistants/${assistantId}`, {
+      const response = await fetch(`https://dynamic-ai-assistant-bd.onrender.com/api/assistants/${assistantId}`, {
         credentials: 'include'
       })
       if (response.ok) {
@@ -63,7 +63,7 @@ function ChatPage({ assistantId, assistantName, onNewAssistant, onHome }) {
 
   const loadChatHistoryFromBackend = async () => {
     try {
-      const response = await fetch(`/api/assistants/${assistantId}/chat-history?limit=100`, {
+      const response = await fetch(`https://dynamic-ai-assistant-bd.onrender.com/api/assistants/${assistantId}/chat-history?limit=100`, {
         credentials: 'include'
       })
 
@@ -194,7 +194,7 @@ function ChatPage({ assistantId, assistantName, onNewAssistant, onHome }) {
     let currentResponse = ""
 
     try {
-      const response = await fetch('/api/chat/stream', {
+      const response = await fetch('https://dynamic-ai-assistant-bd.onrender.com/api/chat/stream', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
