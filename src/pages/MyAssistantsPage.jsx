@@ -14,7 +14,7 @@ function MyAssistantsPage({ onSelectAssistant, onCreateNew, onBack }) {
       setLoading(true);
       setError('');
 
-      const response = await fetch('http://localhost:8000/api/assistants', {
+      const response = await fetch('https://dynamic-ai-assistant-bd.onrender.com/api/assistants', {
         credentials: 'include'
       });
 
@@ -40,7 +40,7 @@ function MyAssistantsPage({ onSelectAssistant, onCreateNew, onBack }) {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/api/assistants/${assistantId}`, {
+      const response = await fetch(`https://dynamic-ai-assistant-bd.onrender.com/api/assistants/${assistantId}`, {
         method: 'DELETE',
         credentials: 'include'
       });
