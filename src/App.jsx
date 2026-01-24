@@ -10,6 +10,7 @@ import MyAssistantsPage from './pages/MyAssistantsPage'
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState(() => {
+    console.log("Dynamic Assistant Frontend v1.1 - Production API");
     return localStorage.getItem('currentPage') || 'landing'
   })
   const [currentAssistant, setCurrentAssistant] = useState(() => {
