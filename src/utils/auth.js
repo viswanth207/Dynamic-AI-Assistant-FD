@@ -1,8 +1,27 @@
-const API_BASE_URL = 'https://dynamic-ai-assistant-bd.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://dynamic-ai-assistant-bd.onrender.com';
+
+const fetchWithTimeout = async (url, options = {}) => {
+  const { timeout = 15000 } = options;
+
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
+    clearTimeout(id);
+    return response;
+  } catch (error) {
+    clearTimeout(id);
+    throw error;
+  }
+};
 
 export const authAPI = {
   async signup(email, password) {
-    const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -18,7 +37,7 @@ export const authAPI = {
   },
 
   async login(email, password) {
-    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -34,7 +53,7 @@ export const authAPI = {
   },
 
   async logout() {
-    const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/logout`, {
       method: 'POST',
       credentials: 'include'
     });
@@ -43,7 +62,7 @@ export const authAPI = {
   },
 
   async getCurrentUser() {
-    const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+    const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/me`, {
       credentials: 'include'
     });
 
@@ -55,10 +74,15 @@ export const authAPI = {
   },
 
   async checkAuth() {
-    const response = await fetch(`${API_BASE_URL}/api/auth/check`, {
-      credentials: 'include'
-    });
-
-    return response.json();
+    try {
+      const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/check`, {
+        credentials: 'include'
+      });
+      if (!response.ok) return { authenticated: false };
+      return response.json();
+    } catch (error) {
+      console.error('Check auth error:', error);
+      return { authenticated: false };
+    }
   }
 };

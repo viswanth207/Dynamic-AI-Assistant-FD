@@ -78,11 +78,29 @@ function AppContent() {
     navigateToLanding()
   }
 
+  const [showSlowLoadingMessage, setShowSlowLoadingMessage] = useState(false);
+
+  useEffect(() => {
+    if (loading) {
+      const timer = setTimeout(() => {
+        setShowSlowLoadingMessage(true);
+      }, 8000); // Show message after 8 seconds
+      return () => clearTimeout(timer);
+    } else {
+      setShowSlowLoadingMessage(false);
+    }
+  }, [loading]);
+
   if (loading) {
     return (
-      <div className="loading-container">
+      <div className="loading-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', gap: '20px' }}>
         <div className="spinner"></div>
-        <p>Loading...</p>
+        <p>Connecting to backend...</p>
+        {showSlowLoadingMessage && (
+          <p style={{ color: '#888', maxWidth: '400px', textAlign: 'center', padding: '0 20px' }}>
+            Note: The free tier server on Render may take up to 60 seconds to wake up from inactivity. Please wait...
+          </p>
+        )}
       </div>
     )
   }
