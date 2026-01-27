@@ -12,6 +12,10 @@ export const fetchWithTimeout = async (url, options = {}) => {
     try {
         const response = await fetch(fullUrl, {
             ...fetchOptions,
+            headers: {
+                ...fetchOptions.headers,
+                'ngrok-skip-browser-warning': 'true'
+            },
             signal: controller.signal
         });
         clearTimeout(id);
