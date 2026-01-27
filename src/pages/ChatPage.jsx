@@ -213,7 +213,7 @@ function ChatPage({ assistantId, assistantName, onNewAssistant, onHome }) {
       // Or better: keep using native fetch for stream but fix the URL.
       // I will fix the URL first.
 
-      const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://dynamic-ai-assistant-bd.onrender.com';
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://3.80.23.96:8000';
       const response = await fetch(`${API_BASE_URL}/api/chat/stream`, {
         method: 'POST',
         headers: {

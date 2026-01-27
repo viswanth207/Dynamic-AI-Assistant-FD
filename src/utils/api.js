@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://dynamic-ai-assistant-bd.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://3.80.23.96:8000';
 
 export const fetchWithTimeout = async (url, options = {}) => {
     const { timeout = 15000, ...fetchOptions } = options;
