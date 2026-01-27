@@ -2,7 +2,7 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "https://wine-deeper-discussed-shame.trycloudflare.com/api/$1"
+            "destination": "https://protocols-minister-petition-wide.trycloudflare.com/api/$1"
         },
         {
             "source": "/(.*)",
