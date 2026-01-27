@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://7ba3a0ff89c0.ngrok-free.app';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://classified-author-caroline-martin.trycloudflare.com';
 
 export const fetchWithTimeout = async (url, options = {}) => {
     const { timeout = 15000, ...fetchOptions } = options;
@@ -12,10 +12,6 @@ export const fetchWithTimeout = async (url, options = {}) => {
     try {
         const response = await fetch(fullUrl, {
             ...fetchOptions,
-            headers: {
-                ...fetchOptions.headers,
-                'ngrok-skip-browser-warning': 'true'
-            },
             signal: controller.signal
         });
         clearTimeout(id);

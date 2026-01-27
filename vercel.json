@@ -2,7 +2,7 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "https://7ba3a0ff89c0.ngrok-free.app/api/$1"
+            "destination": "https://classified-author-caroline-martin.trycloudflare.com/api/$1"
         },
         {
             "source": "/(.*)",
