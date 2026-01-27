@@ -10,6 +10,7 @@ import {
   deleteConversationById,
   generateUUID
 } from '../utils/storage'
+import { fetchWithTimeout } from '../utils/api'
 
 function ChatPage({ assistantId, assistantName, onNewAssistant, onHome }) {
   const [currentConversationId, setCurrentConversationId] = useState(null)
@@ -44,7 +45,7 @@ function ChatPage({ assistantId, assistantName, onNewAssistant, onHome }) {
 
   const fetchAssistantDetails = async () => {
     try {
-      const response = await fetch(`https://dynamic-ai-assistant-bd.onrender.com/api/assistants/${assistantId}`, {
+      const response = await fetchWithTimeout(`/api/assistants/${assistantId}`, {
         credentials: 'include'
       })
       if (response.ok) {
@@ -63,7 +64,7 @@ function ChatPage({ assistantId, assistantName, onNewAssistant, onHome }) {
 
   const loadChatHistoryFromBackend = async () => {
     try {
-      const response = await fetch(`https://dynamic-ai-assistant-bd.onrender.com/api/assistants/${assistantId}/chat-history?limit=100`, {
+      const response = await fetchWithTimeout(`/api/assistants/${assistantId}/chat-history?limit=100`, {
         credentials: 'include'
       })
 
@@ -194,7 +195,26 @@ function ChatPage({ assistantId, assistantName, onNewAssistant, onHome }) {
     let currentResponse = ""
 
     try {
-      const response = await fetch('https://dynamic-ai-assistant-bd.onrender.com/api/chat/stream', {
+      // Use standard fetch for streaming to handle ReadableStream correctly
+      // but use relative path to leverage API_BASE_URL from a helper or manually construction
+      // Actually fetchWithTimeout is okay if we don't need abort on timeout mid-stream? 
+      // Timeouts on streams are tricky. Usually we want a connection timeout.
+      // Let's use fetchWithTimeout but maybe with a longer timeout?
+      // Or just standard fetch if we want to stream indefinitely.
+      // But the user asked for "frontend timeouts". 
+      // A common pattern is to timeout the *start* of the stream.
+      // My fetchWithTimeout times out the whole request?
+      // "const id = setTimeout(() => controller.abort(), timeout);"
+      // Yes, it aborts after timeout. This breaks long streams.
+      // So for streaming, we should probably NOT use fetchWithTimeout or use a very long one.
+      // Or just implement connection timeout.
+      // However, the requested task is "add frontend timeouts".
+      // I will use fetchWithTimeout but maybe increase timeout for chat?
+      // Or better: keep using native fetch for stream but fix the URL.
+      // I will fix the URL first.
+
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://dynamic-ai-assistant-bd.onrender.com';
+      const response = await fetch(`${API_BASE_URL}/api/chat/stream`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

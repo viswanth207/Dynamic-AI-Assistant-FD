@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { fetchWithTimeout } from '../utils/api';
 
 function MyAssistantsPage({ onSelectAssistant, onCreateNew, onBack }) {
   const [assistants, setAssistants] = useState([]);
@@ -14,7 +15,7 @@ function MyAssistantsPage({ onSelectAssistant, onCreateNew, onBack }) {
       setLoading(true);
       setError('');
 
-      const response = await fetch('https://dynamic-ai-assistant-bd.onrender.com/api/assistants', {
+      const response = await fetchWithTimeout('/api/assistants', {
         credentials: 'include'
       });
 
@@ -40,7 +41,7 @@ function MyAssistantsPage({ onSelectAssistant, onCreateNew, onBack }) {
     }
 
     try {
-      const response = await fetch(`https://dynamic-ai-assistant-bd.onrender.com/api/assistants/${assistantId}`, {
+      const response = await fetchWithTimeout(`/api/assistants/${assistantId}`, {
         method: 'DELETE',
         credentials: 'include'
       });

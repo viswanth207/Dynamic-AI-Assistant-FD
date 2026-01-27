@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { fetchWithTimeout } from '../utils/api'
 
 function CreateFormPage({ onBack, onSuccess }) {
   const [formData, setFormData] = useState({
@@ -11,7 +12,7 @@ function CreateFormPage({ onBack, onSuccess }) {
     enableAlerts: false,
     enableRecommendations: false
   })
-  
+
   const [fileName, setFileName] = useState('Choose a file...')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -44,40 +45,40 @@ function CreateFormPage({ onBack, onSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     setIsLoading(true)
     setError('')
-    
+
     try {
       const formDataToSend = new FormData()
       formDataToSend.append('name', formData.name)
       formDataToSend.append('data_source_type', formData.dataSourceType)
-      
+
       if (formData.dataSourceType === 'url') {
         formDataToSend.append('data_source_url', formData.dataUrl)
       } else if (formData.file) {
         formDataToSend.append('file', formData.file)
       }
-      
+
       formDataToSend.append('custom_instructions', formData.customInstructions)
       formDataToSend.append('enable_statistics', formData.enableStatistics)
       formDataToSend.append('enable_alerts', formData.enableAlerts)
       formDataToSend.append('enable_recommendations', formData.enableRecommendations)
-      
-      const response = await fetch('/api/assistants/create', {
+
+      const response = await fetchWithTimeout('/api/assistants/create', {
         method: 'POST',
         body: formDataToSend,
         credentials: 'include'
       })
-      
+
       if (!response.ok) {
         const error = await response.json()
         throw new Error(error.detail || error.error || 'Failed to create assistant')
       }
-      
+
       const result = await response.json()
       onSuccess(result.assistant_id, result.name)
-      
+
     } catch (error) {
       console.error('Error creating assistant:', error)
       setError(error.message)
@@ -111,10 +112,10 @@ function CreateFormPage({ onBack, onSuccess }) {
         <button className="btn btn-secondary btn-back" onClick={onBack}>
           ← Back
         </button>
-        
+
         <div className="form-container">
           <h2 className="form-title">Create Your Assistant</h2>
-          
+
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="name">Assistant Name *</label>
@@ -248,9 +249,9 @@ function CreateFormPage({ onBack, onSuccess }) {
             </div>
 
             <div className="form-actions">
-              <button 
-                type="submit" 
-                className="btn btn-primary btn-large" 
+              <button
+                type="submit"
+                className="btn btn-primary btn-large"
                 disabled={isLoading}
               >
                 Create Assistant

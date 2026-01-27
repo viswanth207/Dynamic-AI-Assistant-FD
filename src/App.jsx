@@ -95,12 +95,7 @@ function AppContent() {
     return (
       <div className="loading-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', gap: '20px' }}>
         <div className="spinner"></div>
-        <p>Connecting to backend...</p>
-        {showSlowLoadingMessage && (
-          <p style={{ color: '#888', maxWidth: '400px', textAlign: 'center', padding: '0 20px' }}>
-            Note: The free tier server on Render may take up to 60 seconds to wake up from inactivity. Please wait...
-          </p>
-        )}
+        <p>Connecting...</p>
       </div>
     )
   }
