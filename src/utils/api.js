@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://protocols-minister-petition-wide.trycloudflare.com';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://rag.neuraltrixai.app';
 
 export const fetchWithTimeout = async (url, options = {}) => {
     const { timeout = 15000, ...fetchOptions } = options;
