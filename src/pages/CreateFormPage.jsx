@@ -7,7 +7,7 @@ function CreateFormPage({ onBack, onSuccess }) {
     dataSourceType: 'csv',
     file: null,
     dataUrl: '',
-    customInstructions: 'You are a helpful AI assistant. Analyze the data, identify patterns, and answer questions. You can make predictions based on data patterns when asked about hypothetical scenarios.If query Is not related to dataset reply "Sorry! only Ask questions related to "',
+    customInstructions: 'You are a helpful AI assistant. Analyze the data, identify patterns, and answer questions. You can make predictions based on data patterns when asked about hypothetical scenarios.',
     enableStatistics: false,
     enableAlerts: false,
     enableRecommendations: false
