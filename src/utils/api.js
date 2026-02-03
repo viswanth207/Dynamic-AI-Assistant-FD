@@ -1,7 +1,7 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://rag.neuraltrixai.app'; // Production Endpoint
 
 export const fetchWithTimeout = async (url, options = {}) => {
-    const { timeout = 15000, ...fetchOptions } = options;
+    const { timeout = 300000, ...fetchOptions } = options;
 
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), timeout);
